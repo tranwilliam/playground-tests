@@ -1,6 +1,6 @@
 # playground-tests
 
-This folder is a starter pack for the practice labs and QAflix on [theQAIguy](https://www.theqaiguy.com/playground/).
+This folder is a starter Playwright project for the practice labs and QAflix on [theQAIguy](https://www.theqaiguy.com/playground/).
 
 The site is fake on purpose. Nothing is stored on a server. Nothing is charged. You are learning how to test, not poking a real product.
 
@@ -10,7 +10,7 @@ You do not need the website source code. These tests hit the live pages.
 
 - Clone this repo and run the Playwright tests on your machine.
 - Ask a Playwright MCP agent (Grok, Cursor, Claude, and similar) to open the same pages and click through them.
-- Read a failing test in `tests/bugs`, then open that lab and find the planted bug.
+- Reuse the fixtures, page objects, and locators when you add your own specs.
 - Use the practice account `tester` / `practice-only` and the practice card `4242 4242 4242 4242`.
 - Make a fake QAflix account. It stays in that browser.
 
@@ -18,7 +18,6 @@ You do not need the website source code. These tests hit the live pages.
 
 - Charge a real card, or send card data to Stripe.
 - Create an account that lives on a server. Refresh or another browser is a blank QAflix.
-- Fix the live site from this repo. The red tests are planted bugs. They are meant to fail.
 - Use this pack as a login to theQAIguy, Beehiiv, or anything else. It only talks to `/playground` and `/qaflix`.
 
 ## Two ways to use it
@@ -27,7 +26,7 @@ You do not need the website source code. These tests hit the live pages.
 
 **B. Use Playwright MCP.** An agent opens a browser and drives the live site. It does not run the `.spec.ts` files unless you also ask it to run `npm test`. MCP is "go click this page for me."
 
-Do A if you want a green or red report. Do B if you want an agent to walk the labs with you.
+Do A if you want a report. Do B if you want an agent to walk the labs with you.
 
 ---
 
@@ -48,25 +47,15 @@ npm install
 npx playwright install chromium
 ```
 
-4. Run the tests that should pass:
+4. Run the suite:
 
 ```bash
-npm run test:pass
+npm test
 ```
 
-You should see the labs and a short QAflix smoke (sign up, pick Screen, pay in the card iframe, land on Who's watching).
+If a test fails, open that spec and the page it hits. Decide whether the test, the locator, or the page is wrong.
 
-5. Run the planted-bug tests:
-
-```bash
-npm run test:bugs
-```
-
-These describe the *correct* behavior. They fail on the live site. That red run is the lesson. Open the spec, read what it expected, then open the matching lab.
-
-6. `npm test` runs both folders. The full run ends red because of `tests/bugs`. Use `npm run test:pass` when you only want the green smoke.
-
-If you are pointing at a local copy of the site, set `PLAYGROUND_URL` first, for example `PLAYGROUND_URL=http://127.0.0.1:4330 npm run test:pass`.
+If you are pointing at a local copy of the site, set `PLAYGROUND_URL` first, for example `PLAYGROUND_URL=http://127.0.0.1:4330 npm test`.
 
 ---
 
@@ -90,7 +79,7 @@ grok mcp add --scope project playwright -- npx -y @playwright/mcp@latest --confi
 
 Then start a **new** Grok session in this folder. An old session will not see the server.
 
-**Cursor:** add a Playwright MCP server with command `npx` and args `-y @playwright/mcp@latest --config playwright.mcp.json` (run from this folder). `.cursor/mcp.json` is already in the repo. Restart Cursor or reload MCP if the tools do not show up.
+**Cursor:** `.cursor/mcp.json` is already in the repo. Restart Cursor or reload MCP if the tools do not show up.
 
 **Anyone else:** from this folder run:
 
@@ -135,13 +124,20 @@ If the agent says WebMCP is off, the labs still work. It will click the real fie
 
 ### 6. MCP does not replace `npm test`
 
-Asking an agent to "run the tests" means it should use the terminal (`npm run test:pass`). Playwright MCP is the browser. Both can live in the same chat if you want: first run the green suite, then have the agent open a lab that failed in `tests/bugs`.
+Asking an agent to "run the tests" means it should use the terminal (`npm test`). Playwright MCP is the browser. Both can live in the same chat if you want.
 
 ---
 
-## Folders
+## Folder layout
 
-- `tests/pass` should stay green against https://www.theqaiguy.com.
-- `tests/bugs` should fail. Each file is one planted bug (counter adds 2, payment slip disagrees with a declined card, checkout summary forgets the plan, and so on).
+```
+tests/
+  fixtures.ts          Practice user, card, and a fresh QAflix email
+  support/             Shared locators (name first, test id as fallback)
+  pages/               One page object per lab, plus QAflix
+  *.spec.ts            Hub, seven labs, QAflix membership smoke
+playwright.config.ts
+playwright.mcp.json    Chromium with WebMCP for MCP agents
+```
 
-If a pass test goes red, the live site changed or your install is incomplete. If a bug test goes green, that planted bug was fixed.
+Specs use `getByRole` and `getByLabel` where they can. The locators lab ships a redesign that changes the button id; `findControl` still clicks **Save report** by its name.

@@ -4,9 +4,7 @@
   "version": "0.1.0",
   "description": "Starter Playwright tests for theQAIguy playground labs and QAflix.",
   "scripts": {
-    "test": "playwright test",
-    "test:pass": "playwright test tests/pass",
-    "test:bugs": "playwright test tests/bugs"
+    "test": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.0"
