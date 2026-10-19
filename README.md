@@ -272,6 +272,8 @@ tests/
   playground/          Hub only: https://www.theqaiguy.com/playground/
   labs/                Seven labs: /playground/sign-in, payment, dialogs, checkout, locators, injection, access
   qaflix/              QAflix only: https://www.theqaiguy.com/qaflix/
+                       home, signup, login, forgot, membership, profiles, watch, account
+                       helpers.ts = shared steps (sign up, pay) used by more than one spec
   shared/              Practice user, card, and the step() logger
 playwright.config.ts   Live URL for theQAIguy, plus browser projects
 playwright.mcp.json    Chromium with WebMCP for MCP agents
