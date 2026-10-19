@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 
+// Helpers for /playground/payment/. Fill the fake card and click Pay with practice card.
 export class PaymentPage {
   constructor(private readonly page: Page) {}
 

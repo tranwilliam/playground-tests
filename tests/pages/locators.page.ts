@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test';
 import { findControl } from '../support/find-control';
 
+// Helpers for /playground/locators/. Save report is found by its visible name, not by id.
 export class LocatorsPage {
   constructor(private readonly page: Page) {}
 

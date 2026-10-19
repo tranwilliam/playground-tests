@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 
+// Helpers for /playground/sign-in/. Fill username and password, then click Sign in.
 export class SignInPage {
   constructor(private readonly page: Page) {}
 

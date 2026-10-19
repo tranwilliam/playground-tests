@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 
+// Helpers for /playground/access/. Sign in a role, open a note, request the staff report.
 export class AccessPage {
   constructor(private readonly page: Page) {}
 

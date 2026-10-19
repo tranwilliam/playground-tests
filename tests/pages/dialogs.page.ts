@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 
+// Helpers for /playground/dialogs/. Notice dialog and delete confirm.
 export class DialogsPage {
   constructor(private readonly page: Page) {}
 

@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 
+// Helpers for the playground home page (the list of labs).
 export class HubPage {
   constructor(private readonly page: Page) {}
 

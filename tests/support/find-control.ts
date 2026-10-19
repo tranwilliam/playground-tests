@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
-/** Prefer the accessible name. Fall back to a test id if the name is gone. */
+// Look up a button the way a person would: by the words on it.
+// If that name is gone (the locators lab ships a redesign), try the test id.
 export async function findControl(
   page: Page,
   options: { role: 'button'; name: string; testId?: string },

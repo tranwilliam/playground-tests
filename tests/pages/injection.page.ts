@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 
+// Helpers for /playground/injection/. Type a probe and read the echo.
 export class InjectionPage {
   constructor(private readonly page: Page) {}
 

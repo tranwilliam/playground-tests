@@ -1,5 +1,6 @@
 import { test as base } from '@playwright/test';
 
+// Shared practice data. These are fake. Nothing is charged. Nothing is stored on a server.
 export const practiceUser = {
   username: 'tester',
   password: 'practice-only',
@@ -22,10 +23,12 @@ export type QaflixAccount = {
 };
 
 export const test = base.extend<{ qaflixAccount: QaflixAccount }>({
+  // Skip the QAflix intro sting so the test can see the next page.
   page: async ({ page }, use) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await use(page);
   },
+  // A new fake email every run so sign-up does not collide with an old browser account.
   qaflixAccount: async ({}, use) => {
     await use({
       name: 'Ada Tester',
@@ -36,3 +39,9 @@ export const test = base.extend<{ qaflixAccount: QaflixAccount }>({
 });
 
 export { expect } from '@playwright/test';
+
+/** Print a line in the terminal and group the same text in the Playwright report. */
+export async function step(title: string, run: () => Promise<void>) {
+  console.log(`→ ${title}`);
+  await test.step(title, run);
+}

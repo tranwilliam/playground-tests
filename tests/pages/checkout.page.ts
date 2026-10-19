@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
+// Helpers for /playground/checkout/. Plan, email, review, receipt.
 export class CheckoutPage {
   constructor(private readonly page: Page) {}
 

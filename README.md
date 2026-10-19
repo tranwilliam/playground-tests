@@ -65,6 +65,8 @@ That command is `playwright test --project=chromium`. It hits the live site (htt
 
 If a test fails, open that spec and the page it hits. Decide whether the test, the locator, or the page is wrong.
 
+The `.spec.ts` files are written for someone who has not coded much. Each file starts with a short "what this lab is." Each step has a comment, and the same sentence prints in the terminal while the test runs (`→ Open the sign-in lab`). `expect(...)` means "check that this is true." `page.goto` means "open this URL." If you do not know a line, read the comment above it.
+
 ### What `npm test` does by default
 
 | Setting | This repo |

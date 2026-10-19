@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test';
 import type { QaflixAccount } from '../fixtures';
 
+// Helpers for /qaflix/. Sign up, pick Screen, pay inside the card iframe, land on Who's watching.
 export class QaflixPage {
   constructor(private readonly page: Page) {}
 
