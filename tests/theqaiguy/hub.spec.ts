@@ -1,7 +1,7 @@
 import { expect, step, test } from './fixtures';
 import { HubPage } from './pages/hub.page';
 
-// The hub is the playground home page. It should list QAflix and every practice lab.
+// Site: theQAIguy (https://www.theqaiguy.com). The hub is the playground home page. It should list QAflix and every practice lab.
 
 test('the hub lists QAflix and the practice labs', async ({ page }) => {
   const hub = new HubPage(page);

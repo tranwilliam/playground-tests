@@ -1,5 +1,11 @@
 import { test as base } from '@playwright/test';
 
+// This folder is only for theQAIguy: https://www.theqaiguy.com
+export const site = {
+  name: 'theQAIguy',
+  origin: 'https://www.theqaiguy.com',
+} as const;
+
 // Shared practice data. These are fake. Nothing is charged. Nothing is stored on a server.
 export const practiceUser = {
   username: 'tester',

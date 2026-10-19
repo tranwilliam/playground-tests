@@ -1,7 +1,7 @@
 import { expect, practiceUser, step, test } from './fixtures';
 import { SignInPage } from './pages/sign-in.page';
 
-// Sign-in lab: a fake login form. tester / practice-only should work.
+// Site: theQAIguy (https://www.theqaiguy.com). Sign-in lab: a fake login form. tester / practice-only should work.
 // locked / locked should stay locked. An empty username should name that field.
 
 test('signs in the practice account and names an empty username', async ({ page }) => {

@@ -1,7 +1,7 @@
 import { expect, practiceCard, step, test } from './fixtures';
 import { QaflixPage } from './pages/qaflix.page';
 
-// QAflix is the fake streaming app on /qaflix/.
+// Site: theQAIguy (https://www.theqaiguy.com). QAflix is the fake streaming app on /qaflix/.
 // This test makes a throwaway account, picks Screen, pays in the card iframe, and lands on Who's watching.
 // The account lives in this browser only.
 

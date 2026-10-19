@@ -1,7 +1,7 @@
 import { expect, step, test } from './fixtures';
 import { LocatorsPage } from './pages/locators.page';
 
-// Locators lab: find buttons the way a person would (the words on the control).
+// Site: theQAIguy (https://www.theqaiguy.com). Locators lab: find buttons the way a person would (the words on the control).
 // "Ship the redesign" changes the Save report button id. The test still clicks by name.
 // Add 1 should add 1. Turning alerts on should set aria-pressed to true (screen readers use that).
 

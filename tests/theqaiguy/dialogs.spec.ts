@@ -1,7 +1,7 @@
 import { expect, step, test } from './fixtures';
 import { DialogsPage } from './pages/dialogs.page';
 
-// Dialogs lab: a notice (dialog) and a delete confirm (alertdialog).
+// Site: theQAIguy (https://www.theqaiguy.com). Dialogs lab: a notice (dialog) and a delete confirm (alertdialog).
 // Closing the notice should put keyboard focus back on Open notice.
 // A click on the dimmed page behind delete should keep the report, not delete it.
 
