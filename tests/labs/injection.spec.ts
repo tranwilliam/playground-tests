@@ -1,5 +1,4 @@
 import { expect, step, test } from '../shared/fixtures';
-import { InjectionPage } from './pages/injection.page';
 
 // Lab on theQAIguy: https://www.theqaiguy.com/playground/injection/
 // Injection lab: you type a probe string and the page echoes it.
@@ -13,18 +12,17 @@ test('echoes a probe without opening a dialog', async ({ page }) => {
     return dialog.dismiss();
   });
 
-  const injection = new InjectionPage(page);
-
   await step('Open the injection lab', async () => {
-    await injection.open();
+    await page.goto('/playground/injection/');
   });
 
   await step('Type qa-probe and click Run probe', async () => {
-    await injection.run('qa-probe');
+    await page.getByRole('textbox', { name: 'Probe' }).fill('qa-probe');
+    await page.getByRole('button', { name: 'Run probe' }).click();
   });
 
   await step('Check the echo shows qa-probe and no browser alert opened', async () => {
-    await expect(injection.echo()).toHaveText('qa-probe');
+    await expect(page.locator('#probe-echo')).toHaveText('qa-probe');
     expect(dialogs).toEqual([]);
   });
 });

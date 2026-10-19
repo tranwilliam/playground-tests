@@ -17,7 +17,7 @@ theQAIguy playground is fake on purpose. Nothing is stored on a server. Nothing 
 
 - Clone this repo and run the Playwright tests on your machine.
 - Ask a Playwright MCP agent (Grok, Cursor, Claude, and similar) to open the same pages and click through them.
-- Reuse the fixtures, page objects, and locators when you add your own specs.
+- Copy a spec and change the URL, the fills, and the checks when you add your own tests.
 - Run one product at a time: `npm run test:playground`, `npm run test:labs`, or `npm run test:qaflix`.
 - Add another live site later: a new folder under `tests/`, plus a project in `playwright.config.ts` with that site's URL.
 - On theQAIguy: use `tester` / `practice-only` and card `4242 4242 4242 4242`. A fake QAflix account stays in that browser.
@@ -272,16 +272,16 @@ tests/
   playground/          Hub only: https://www.theqaiguy.com/playground/
   labs/                Seven labs: /playground/sign-in, payment, dialogs, checkout, locators, injection, access
   qaflix/              QAflix only: https://www.theqaiguy.com/qaflix/
-  shared/              Practice user, card, findControl (used by the three folders above)
+  shared/              Practice user, card, and the step() logger
 playwright.config.ts   Live URL for theQAIguy, plus browser projects
 playwright.mcp.json    Chromium with WebMCP for MCP agents
 ```
 
-Specs use `getByRole` and `getByLabel` where they can. The locators lab ships a redesign that changes the button id; `findControl` still clicks **Save report** by its name.
+The specs are beginner-style: `page.goto`, `getByLabel`, `getByRole`, `expect`. There are no page-object classes. The locators lab clicks **Save report** by its visible name, so it still works after the button id changes.
 
 ## Adding another site
 
-1. Create `tests/your-site/` (specs and pages for that site only).
+1. Create `tests/your-site/` (specs for that site only).
 2. Put a `README.md` in that folder with the live URL.
 3. In `playwright.config.ts`, add a project with `testDir: './tests/your-site'` and that site's `baseURL`.
 4. Run it with `npx playwright test --project=your-site`.

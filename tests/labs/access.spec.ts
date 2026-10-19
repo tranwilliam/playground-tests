@@ -1,5 +1,4 @@
 import { expect, practiceUser, step, test } from '../shared/fixtures';
-import { AccessPage } from './pages/access.page';
 
 // Lab on theQAIguy: https://www.theqaiguy.com/playground/access/
 // Access lab: sign in as member, editor, or admin (password is always practice-only).
@@ -7,43 +6,44 @@ import { AccessPage } from './pages/access.page';
 // A member should not read someone else's note (try note id u-editor) or the staff report.
 
 test('signs in a member and keeps the staff report hidden', async ({ page }) => {
-  const access = new AccessPage(page);
-
   await step('Open the access lab', async () => {
-    await access.open();
+    await page.goto('/playground/access/');
   });
 
   await step(`Sign in as member / ${practiceUser.password}`, async () => {
-    await access.signIn('member', practiceUser.password);
+    await page.getByLabel('Username').fill('member');
+    await page.getByLabel('Password').fill(practiceUser.password);
+    await page.getByRole('button', { name: 'Sign in' }).click();
   });
 
   await step('Check the role line says member and the staff report control is hidden', async () => {
-    await expect(access.role()).toHaveText('Signed in as member (u-member).');
-    await expect(access.staffButton()).toBeHidden();
+    await expect(page.locator('#access-role')).toHaveText('Signed in as member (u-member).');
+    await expect(page.locator('#open-staff')).toBeHidden();
   });
 });
 
 test('a member cannot read another person\'s note or the staff report', async ({ page }) => {
-  const access = new AccessPage(page);
-
   await step('Open the access lab and sign in as member', async () => {
-    await access.open();
-    await access.signIn('member', practiceUser.password);
+    await page.goto('/playground/access/');
+    await page.getByLabel('Username').fill('member');
+    await page.getByLabel('Password').fill(practiceUser.password);
+    await page.getByRole('button', { name: 'Sign in' }).click();
   });
 
   await step('Open note id u-editor (that note belongs to the editor)', async () => {
-    await access.openNote('u-editor');
+    await page.getByLabel('Note id').fill('u-editor');
+    await page.getByRole('button', { name: 'Open note' }).click();
   });
 
   await step('Check the page refuses with "This note belongs to someone else."', async () => {
-    await expect(access.note()).toHaveText('This note belongs to someone else.');
+    await expect(page.locator('#note-result')).toHaveText('This note belongs to someone else.');
   });
 
   await step('Click Request staff report', async () => {
-    await access.requestStaffReport();
+    await page.getByRole('button', { name: 'Request staff report' }).click();
   });
 
   await step('Check the page says the staff report is for an admin', async () => {
-    await expect(access.staff()).toHaveText('The staff report is for an admin.');
+    await expect(page.locator('#staff-result')).toHaveText('The staff report is for an admin.');
   });
 });

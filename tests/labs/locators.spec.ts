@@ -1,5 +1,4 @@
 import { expect, step, test } from '../shared/fixtures';
-import { LocatorsPage } from './pages/locators.page';
 
 // Lab on theQAIguy: https://www.theqaiguy.com/playground/locators/
 // Locators lab: find buttons the way a person would (the words on the control).
@@ -7,58 +6,55 @@ import { LocatorsPage } from './pages/locators.page';
 // Add 1 should add 1. Turning alerts on should set aria-pressed to true (screen readers use that).
 
 test('saves the report by name after the redesign', async ({ page }) => {
-  const locators = new LocatorsPage(page);
-
   await step('Open the locators lab and click Save report by its visible name', async () => {
-    await locators.open();
-    await locators.saveReport();
+    await page.goto('/playground/locators/');
+    // getByRole looks at the words on the button, not the id. That still works after the redesign.
+    await page.getByRole('button', { name: 'Save report', exact: true }).click();
   });
 
   await step('Check the status says Report saved.', async () => {
-    await expect(locators.reportStatus()).toHaveText('Report saved.');
+    await expect(page.locator('#report-status')).toHaveText('Report saved.');
   });
 
   await step('Tick Ship the redesign (the button id changes) and save again by name', async () => {
-    await locators.shipRedesign();
+    await page.getByLabel('Ship the redesign').check();
     await expect(page.locator('#save-report')).toHaveCount(0);
-    await locators.saveReport();
+    await page.getByRole('button', { name: 'Save report', exact: true }).click();
   });
 
   await step('Check it still says Report saved. after the id changed', async () => {
-    await expect(locators.reportStatus()).toHaveText('Report saved.');
+    await expect(page.locator('#report-status')).toHaveText('Report saved.');
   });
 });
 
 test('Add 1 adds 1', async ({ page }) => {
-  const locators = new LocatorsPage(page);
-
   await step('Open the locators lab', async () => {
-    await locators.open();
+    await page.goto('/playground/locators/');
   });
 
   await step('Click Add 1', async () => {
-    await locators.addOne();
+    await page.getByRole('button', { name: 'Add 1' }).click();
   });
 
   await step('Check the counter shows 1', async () => {
-    await expect(locators.counter()).toHaveText('1');
+    await expect(page.locator('#counter-value')).toHaveText('1');
   });
 });
 
 test('turning alerts on sets aria-pressed to true', async ({ page }) => {
-  const locators = new LocatorsPage(page);
+  const alerts = page.locator('#toggle-alerts');
 
   await step('Open the locators lab. Alerts should start off', async () => {
-    await locators.open();
-    await expect(locators.alerts()).toHaveText('Alerts off');
+    await page.goto('/playground/locators/');
+    await expect(alerts).toHaveText('Alerts off');
   });
 
   await step('Click the alerts toggle', async () => {
-    await locators.alerts().click();
+    await alerts.click();
   });
 
   await step('Check the label says Alerts on and aria-pressed is true', async () => {
-    await expect(locators.alerts()).toHaveText('Alerts on');
-    await expect(locators.alerts()).toHaveAttribute('aria-pressed', 'true');
+    await expect(alerts).toHaveText('Alerts on');
+    await expect(alerts).toHaveAttribute('aria-pressed', 'true');
   });
 });

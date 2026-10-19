@@ -1,5 +1,4 @@
 import { expect, practiceCard, step, test } from '../shared/fixtures';
-import { PaymentPage } from './pages/payment.page';
 
 // Lab on theQAIguy: https://www.theqaiguy.com/playground/payment/
 // Card payment lab: a fake card form. 4242 is the accepted practice card.
@@ -12,23 +11,20 @@ test('accepts the practice card and does not call Stripe', async ({ page }) => {
     if (request.url().includes('stripe')) leaked.push(request.url());
   });
 
-  const payment = new PaymentPage(page);
-
   await step('Open the card payment lab', async () => {
-    await payment.open();
+    await page.goto('/playground/payment/');
   });
 
   await step(`Pay with the accepted practice card ${practiceCard.accepted}`, async () => {
-    await payment.pay({
-      name: practiceCard.name,
-      number: practiceCard.accepted,
-      expiry: practiceCard.expiry,
-      cvc: practiceCard.cvc,
-    });
+    await page.getByLabel('Name on card').fill(practiceCard.name);
+    await page.getByLabel('Card number').fill(practiceCard.accepted);
+    await page.getByLabel('Expiry').fill(practiceCard.expiry);
+    await page.getByLabel('Security code').fill(practiceCard.cvc);
+    await page.getByRole('button', { name: 'Pay with practice card' }).click();
   });
 
   await step('Check the page says the practice payment was accepted and nothing was charged', async () => {
-    await expect(payment.result()).toHaveText('Practice payment accepted. Nothing was charged.');
+    await expect(page.locator('#payment-result')).toHaveText('Practice payment accepted. Nothing was charged.');
   });
 
   await step('Check the browser did not call Stripe', async () => {
@@ -37,27 +33,24 @@ test('accepts the practice card and does not call Stripe', async ({ page }) => {
 });
 
 test('the slip matches a declined card', async ({ page }) => {
-  const payment = new PaymentPage(page);
-
   await step('Open the card payment lab', async () => {
-    await payment.open();
+    await page.goto('/playground/payment/');
   });
 
   await step(`Pay with the declined practice card ${practiceCard.declined}`, async () => {
-    await payment.pay({
-      name: practiceCard.name,
-      number: practiceCard.declined,
-      expiry: practiceCard.expiry,
-      cvc: practiceCard.cvc,
-    });
+    await page.getByLabel('Name on card').fill(practiceCard.name);
+    await page.getByLabel('Card number').fill(practiceCard.declined);
+    await page.getByLabel('Expiry').fill(practiceCard.expiry);
+    await page.getByLabel('Security code').fill(practiceCard.cvc);
+    await page.getByRole('button', { name: 'Pay with practice card' }).click();
   });
 
   await step('Check the result text says the practice card was declined', async () => {
-    await expect(payment.result()).toHaveText('Practice card declined.');
+    await expect(page.locator('#payment-result')).toHaveText('Practice card declined.');
   });
 
   // The slip is the extra line under the form. It should say the same thing as the result.
   await step('Check the slip says the same declined message', async () => {
-    await expect(payment.slip()).toHaveText('Practice card declined.');
+    await expect(page.locator('#slip-result')).toHaveText('Practice card declined.');
   });
 });
