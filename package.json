@@ -5,6 +5,9 @@
   "description": "Starter Playwright tests for theQAIguy playground labs and QAflix.",
   "scripts": {
     "test": "playwright test --project=theqaiguy",
+    "test:playground": "playwright test tests/playground --project=theqaiguy",
+    "test:labs": "playwright test tests/labs --project=theqaiguy",
+    "test:qaflix": "playwright test tests/qaflix --project=theqaiguy",
     "test:headed": "playwright test --project=theqaiguy --headed",
     "test:firefox": "playwright test --project=theqaiguy-firefox",
     "test:webkit": "playwright test --project=theqaiguy-webkit",

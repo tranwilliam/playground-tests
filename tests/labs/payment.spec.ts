@@ -1,7 +1,8 @@
-import { expect, practiceCard, step, test } from './fixtures';
+import { expect, practiceCard, step, test } from '../shared/fixtures';
 import { PaymentPage } from './pages/payment.page';
 
-// Site: theQAIguy (https://www.theqaiguy.com). Card payment lab: a fake card form. 4242 is the accepted practice card.
+// Lab on theQAIguy: https://www.theqaiguy.com/playground/payment/
+// Card payment lab: a fake card form. 4242 is the accepted practice card.
 // 0002 is the declined practice card. The page should never call Stripe.
 
 test('accepts the practice card and does not call Stripe', async ({ page }) => {

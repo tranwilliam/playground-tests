@@ -1,7 +1,8 @@
-import { expect, practiceUser, step, test } from './fixtures';
+import { expect, practiceUser, step, test } from '../shared/fixtures';
 import { AccessPage } from './pages/access.page';
 
-// Site: theQAIguy (https://www.theqaiguy.com). Access lab: sign in as member, editor, or admin (password is always practice-only).
+// Lab on theQAIguy: https://www.theqaiguy.com/playground/access/
+// Access lab: sign in as member, editor, or admin (password is always practice-only).
 // A member should not see the staff report button.
 // A member should not read someone else's note (try note id u-editor) or the staff report.
 

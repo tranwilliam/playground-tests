@@ -1,7 +1,8 @@
-import { expect, practiceUser, step, test } from './fixtures';
+import { expect, practiceUser, step, test } from '../shared/fixtures';
 import { SignInPage } from './pages/sign-in.page';
 
-// Site: theQAIguy (https://www.theqaiguy.com). Sign-in lab: a fake login form. tester / practice-only should work.
+// Lab on theQAIguy: https://www.theqaiguy.com/playground/sign-in/
+// Sign-in lab: a fake login form. tester / practice-only should work.
 // locked / locked should stay locked. An empty username should name that field.
 
 test('signs in the practice account and names an empty username', async ({ page }) => {

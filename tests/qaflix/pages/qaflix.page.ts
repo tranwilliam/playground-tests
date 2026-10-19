@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import type { QaflixAccount } from '../fixtures';
+import type { QaflixAccount } from '../../shared/fixtures';
 
 // Helpers for /qaflix/. Sign up, pick Screen, pay inside the card iframe, land on Who's watching.
 export class QaflixPage {

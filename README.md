@@ -1,12 +1,15 @@
 # playground-tests
 
-This repo holds Playwright tests for **live websites**. Each site has its own folder under `tests/`. Specs in that folder only open that site's URL.
+This repo holds Playwright tests for **live websites**. Each folder under `tests/` is one product on a site. Specs in that folder only open that product's pages.
 
-Right now there is one site:
+Right now everything hits https://www.theqaiguy.com, split like this:
 
 | Folder | Live URL | What it covers |
 |---|---|---|
-| `tests/theqaiguy/` | https://www.theqaiguy.com | Practice labs (`/playground/…`) and QAflix (`/qaflix/…`) |
+| `tests/playground/` | https://www.theqaiguy.com/playground/ | Playground hub (the list of labs) |
+| `tests/labs/` | https://www.theqaiguy.com/playground/sign-in/ and the other labs | The seven practice labs |
+| `tests/qaflix/` | https://www.theqaiguy.com/qaflix/ | QAflix membership smoke |
+| `tests/shared/` |  | Fake user, card, and helpers used by the three folders above |
 
 theQAIguy playground is fake on purpose. Nothing is stored on a server. Nothing is charged. You are learning how to test, not poking a real product. You do not need the website source code.
 
@@ -15,12 +18,13 @@ theQAIguy playground is fake on purpose. Nothing is stored on a server. Nothing 
 - Clone this repo and run the Playwright tests on your machine.
 - Ask a Playwright MCP agent (Grok, Cursor, Claude, and similar) to open the same pages and click through them.
 - Reuse the fixtures, page objects, and locators when you add your own specs.
+- Run one product at a time: `npm run test:playground`, `npm run test:labs`, or `npm run test:qaflix`.
 - Add another live site later: a new folder under `tests/`, plus a project in `playwright.config.ts` with that site's URL.
 - On theQAIguy: use `tester` / `practice-only` and card `4242 4242 4242 4242`. A fake QAflix account stays in that browser.
 
 ## What you cannot do
 
-- Mix two websites in one folder. theQAIguy tests stay in `tests/theqaiguy/`.
+- Mix two products in one folder. Hub tests stay in `tests/playground/`. Labs stay in `tests/labs/`. QAflix stays in `tests/qaflix/`.
 - Charge a real card, or send card data to Stripe, on theQAIguy.
 - Create a QAflix account that lives on a server. Refresh or another browser is a blank QAflix.
 - Point these tests at a local copy of theQAIguy. `npm test` always uses the live URL in `playwright.config.ts`.
@@ -66,7 +70,15 @@ The mobile project uses Chromium with an iPhone 14 viewport, so Chromium covers 
 npm test
 ```
 
-That command is `playwright test --project=theqaiguy`. It runs only `tests/theqaiguy/` against https://www.theqaiguy.com. There is no local website to start.
+That command is `playwright test --project=theqaiguy`. It runs `tests/playground`, `tests/labs`, and `tests/qaflix` against https://www.theqaiguy.com. There is no local website to start.
+
+To run one product:
+
+```bash
+npm run test:playground
+npm run test:labs
+npm run test:qaflix
+```
 
 If a test fails, open that spec and the page it hits. Decide whether the test, the locator, or the page is wrong.
 
@@ -76,7 +88,7 @@ The `.spec.ts` files are written for someone who has not coded much. Each file s
 
 | Setting | This repo |
 |---|---|
-| Site | theQAIguy, https://www.theqaiguy.com (`tests/theqaiguy/`) |
+| Site | theQAIguy, https://www.theqaiguy.com (`tests/playground`, `tests/labs`, `tests/qaflix`) |
 | Browser | Chromium (Chrome's engine), project name `theqaiguy` |
 | Viewport | Desktop Chrome, 1280 x 720 |
 | Window | Headless. No browser window. You only see the terminal. |
@@ -253,17 +265,15 @@ Asking an agent to "run the tests" means it should use the terminal (`npm test`)
 
 ## Folder layout
 
-One folder per live site. Do not put a second website's tests inside `theqaiguy`.
+One folder per product. Do not put QAflix specs in `labs/` or lab specs in `playground/`.
 
 ```
 tests/
-  theqaiguy/           Only https://www.theqaiguy.com
-    README.md          Reminder of the URL and what this folder covers
-    fixtures.ts        Practice user, card, and a fresh QAflix email
-    support/           Shared locators (name first, test id as fallback)
-    pages/             One page object per lab, plus QAflix
-    *.spec.ts          Hub, seven labs, QAflix membership smoke
-playwright.config.ts   Each project names a site folder and that site's live URL
+  playground/          Hub only: https://www.theqaiguy.com/playground/
+  labs/                Seven labs: /playground/sign-in, payment, dialogs, checkout, locators, injection, access
+  qaflix/              QAflix only: https://www.theqaiguy.com/qaflix/
+  shared/              Practice user, card, findControl (used by the three folders above)
+playwright.config.ts   Live URL for theQAIguy, plus browser projects
 playwright.mcp.json    Chromium with WebMCP for MCP agents
 ```
 
@@ -271,18 +281,9 @@ Specs use `getByRole` and `getByLabel` where they can. The locators lab ships a 
 
 ## Adding another site
 
-1. Create `tests/your-site/` (specs, pages, fixtures for that site only).
+1. Create `tests/your-site/` (specs and pages for that site only).
 2. Put a `README.md` in that folder with the live URL.
-3. In `playwright.config.ts`, add a project:
-
-```ts
-{
-  name: 'your-site',
-  testDir: './tests/your-site',
-  use: { baseURL: 'https://www.example.com', ...devices['Desktop Chrome'] },
-}
-```
-
+3. In `playwright.config.ts`, add a project with `testDir: './tests/your-site'` and that site's `baseURL`.
 4. Run it with `npx playwright test --project=your-site`.
 
-Leave `npm test` as theQAIguy until you want the default to change. Each spec file should start with `Site:` and that site's URL.
+Leave `npm test` as playground + labs + QAflix on theQAIguy until you want the default to change. Each spec file should start with the product and the live URL.

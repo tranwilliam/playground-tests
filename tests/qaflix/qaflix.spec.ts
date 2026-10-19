@@ -1,7 +1,8 @@
-import { expect, practiceCard, step, test } from './fixtures';
+import { expect, practiceCard, step, test } from '../shared/fixtures';
 import { QaflixPage } from './pages/qaflix.page';
 
-// Site: theQAIguy (https://www.theqaiguy.com). QAflix is the fake streaming app on /qaflix/.
+// QAflix on theQAIguy: https://www.theqaiguy.com/qaflix/
+// Fake streaming app. This folder is only QAflix. Labs live in tests/labs/. The hub lives in tests/playground/.
 // This test makes a throwaway account, picks Screen, pays in the card iframe, and lands on Who's watching.
 // The account lives in this browser only.
 

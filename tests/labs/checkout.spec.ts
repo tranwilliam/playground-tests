@@ -1,7 +1,8 @@
-import { expect, step, test } from './fixtures';
+import { expect, step, test } from '../shared/fixtures';
 import { CheckoutPage } from './pages/checkout.page';
 
-// Site: theQAIguy (https://www.theqaiguy.com). Checkout lab: pick a plan, enter a name and email, review, place a fake order.
+// Lab on theQAIguy: https://www.theqaiguy.com/playground/checkout/
+// Checkout lab: pick a plan, enter a name and email, review, place a fake order.
 // A bad email should error. A good order should print a receipt and not charge anyone.
 // The review summary should still show the plan you picked.
 

@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
 
-// This folder is only for theQAIguy: https://www.theqaiguy.com
+// Shared by tests/playground, tests/labs, and tests/qaflix. All of those hit https://www.theqaiguy.com
 export const site = {
   name: 'theQAIguy',
   origin: 'https://www.theqaiguy.com',

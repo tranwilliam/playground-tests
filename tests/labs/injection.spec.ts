@@ -1,7 +1,8 @@
-import { expect, step, test } from './fixtures';
+import { expect, step, test } from '../shared/fixtures';
 import { InjectionPage } from './pages/injection.page';
 
-// Site: theQAIguy (https://www.theqaiguy.com). Injection lab: you type a probe string and the page echoes it.
+// Lab on theQAIguy: https://www.theqaiguy.com/playground/injection/
+// Injection lab: you type a probe string and the page echoes it.
 // A safe echo shows the text. It should not pop a browser alert.
 
 test('echoes a probe without opening a dialog', async ({ page }) => {

@@ -1,7 +1,8 @@
-import { expect, step, test } from './fixtures';
+import { expect, step, test } from '../shared/fixtures';
 import { HubPage } from './pages/hub.page';
 
-// Site: theQAIguy (https://www.theqaiguy.com). The hub is the playground home page. It should list QAflix and every practice lab.
+// Playground hub on theQAIguy: https://www.theqaiguy.com/playground/
+// This folder is only the home page. The seven labs live in tests/labs/. QAflix lives in tests/qaflix/.
 
 test('the hub lists QAflix and the practice labs', async ({ page }) => {
   const hub = new HubPage(page);
