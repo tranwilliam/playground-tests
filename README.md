@@ -40,12 +40,20 @@ git clone https://github.com/tranwilliam/playground-tests.git
 cd playground-tests
 ```
 
-3. Install the packages and the Chromium browser Playwright uses:
+3. Install the packages and Chromium (enough for a first run):
 
 ```bash
 npm install
 npx playwright install chromium
 ```
+
+Firefox, Safari (WebKit), and the phone project need their browsers too:
+
+```bash
+npx playwright install firefox webkit
+```
+
+The mobile project uses Chromium with an iPhone 14 viewport, so Chromium covers that one.
 
 4. Run the suite:
 
@@ -53,9 +61,113 @@ npx playwright install chromium
 npm test
 ```
 
-That run hits the live site (https://www.theqaiguy.com). There is no local website to start.
+That command is `playwright test --project=chromium`. It hits the live site (https://www.theqaiguy.com). There is no local website to start.
 
 If a test fails, open that spec and the page it hits. Decide whether the test, the locator, or the page is wrong.
+
+### What `npm test` does by default
+
+| Setting | This repo |
+|---|---|
+| Site | https://www.theqaiguy.com |
+| Browser | Chromium (Chrome's engine), project name `chromium` |
+| Viewport | Desktop Chrome, 1280 x 720 |
+| Window | Headless. No browser window. You only see the terminal. |
+| Workers | Playwright picks a count from your CPU (about half the cores on a laptop). `fullyParallel` is on, so tests in the same file can run at the same time. |
+| Retries | 0. A failure stays a failure. |
+
+You can add flags after `--` so npm passes them through, for example `npm test -- --headed --workers=1`. Or use the scripts below.
+
+### Headless or headed
+
+Headless (default) means Playwright runs the browser with no window.
+
+```bash
+npm test
+```
+
+Headed means a real window opens and you can watch the clicks.
+
+```bash
+npm run test:headed
+```
+
+Same thing with a flag: `npm test -- --headed`.
+
+`npm run test:slow` is headed **and** `--workers=1`, so one test at a time in a window you can follow.
+
+| | Headless | Headed |
+|---|---|---|
+| What it does | Browser runs in the background. | A window opens for each worker. |
+| Pros | Faster. Fine on a small laptop. What CI uses. | You see the page, the fill, the click. Easier to learn and to debug. |
+| Cons | A failure is only a stack trace. Easy to miss that you hit the live site. | Slower. Windows steal focus. Several workers means several windows. |
+
+Use headed when you are learning or chasing one failure. Use headless when you already trust the run.
+
+### Workers
+
+A worker is one parallel browser. `--workers=1` is a single browser, tests in order. `--workers=4` is four browsers at once.
+
+```bash
+npm test -- --workers=1
+npm test -- --workers=4
+```
+
+| | One worker | Several workers |
+|---|---|---|
+| What it does | One test at a time. | Tests share the CPU and open more browsers against the live site. |
+| Pros | Easy to watch. Fewer tabs on theQAIguy. Failures are simpler to read. | Finishes sooner on a decent machine. |
+| Cons | Slow. | The live site sees more traffic. Headed mode becomes a pile of windows. QAflix accounts are per browser, so parallel QAflix tests do not share a login, which is what we want. |
+
+Start with one worker if the report feels chaotic. Go back to the default when you want speed.
+
+### Browser types
+
+`npm test` is Chromium only. The other engines are separate projects. Install them first (`npx playwright install firefox webkit`).
+
+```bash
+npm run test:firefox
+npm run test:webkit
+```
+
+Flags: `npx playwright test --project=firefox` and `--project=webkit`.
+
+| Project | Engine | What it does |
+|---|---|---|
+| `chromium` | Chrome / Edge | Default. Fast to install. Closest to what most people use. |
+| `firefox` | Firefox | A second engine. Catches "works in Chrome only" gaps. |
+| `webkit` | Safari | Closest you get to Safari on macOS and iOS from Playwright. |
+
+| | Chromium only | Extra browsers |
+|---|---|---|
+| Pros | One install. Fastest first run. | You see the labs in more than one engine. |
+| Cons | You never learn if Firefox or Safari disagrees. | Bigger download. Slower suite. A few locators or fonts can differ. |
+
+Stay on Chromium until `npm test` makes sense. Add Firefox or WebKit when you want to see another engine.
+
+### Viewports
+
+A viewport is the page size. Default is **desktop** 1280 x 720 (Playwright's Desktop Chrome device).
+
+**Mobile** is Playwright's iPhone 14 device: 390 x 664, touch, mobile user agent. Still Chromium, not a real iPhone.
+
+```bash
+npm run test:mobile
+```
+
+Flag: `npx playwright test --project=mobile`.
+
+| | Desktop (default) | Mobile project |
+|---|---|---|
+| What it does | Wide layout, mouse. | Narrow layout, touch. |
+| Pros | Matches the lab layout most people see on a laptop. | Shows overflow, stacked fields, and controls that only fit on a phone. |
+| Cons | Misses small-screen bugs. | Not a real iPhone. Some labs are easier on a wide screen. Headed mobile still opens a desktop Chrome window with a small inner size. |
+
+You can mix flags, for example watch the phone layout one test at a time:
+
+```bash
+npx playwright test --project=mobile --headed --workers=1
+```
 
 ---
 

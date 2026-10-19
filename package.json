@@ -4,7 +4,12 @@
   "version": "0.1.0",
   "description": "Starter Playwright tests for theQAIguy playground labs and QAflix.",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test --project=chromium",
+    "test:headed": "playwright test --project=chromium --headed",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project=mobile",
+    "test:slow": "playwright test --project=chromium --headed --workers=1"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.0"
