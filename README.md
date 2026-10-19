@@ -53,9 +53,9 @@ npx playwright install chromium
 npm test
 ```
 
-If a test fails, open that spec and the page it hits. Decide whether the test, the locator, or the page is wrong.
+That run hits the live site (https://www.theqaiguy.com). There is no local website to start.
 
-If you are pointing at a local copy of the site, set `PLAYGROUND_URL` first, for example `PLAYGROUND_URL=http://127.0.0.1:4330 npm test`.
+If a test fails, open that spec and the page it hits. Decide whether the test, the locator, or the page is wrong.
 
 ---
 
