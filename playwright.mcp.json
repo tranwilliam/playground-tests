@@ -1,0 +1,8 @@
+{
+  "browser": {
+    "isolated": true,
+    "launchOptions": {
+      "args": ["--enable-features=WebMCP"]
+    }
+  }
+}
