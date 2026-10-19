@@ -81,6 +81,10 @@ Then start a **new** Grok session in this folder. An old session will not see th
 
 **Cursor:** `.cursor/mcp.json` is already in the repo. Restart Cursor or reload MCP if the tools do not show up.
 
+**Claude Code:** `.mcp.json` is already in the repo. Open this folder in Claude Code and start a new session. Approve the Playwright MCP server if it asks.
+
+**Claude Desktop:** add the same server in Settings: command `npx`, args `-y @playwright/mcp@latest --config playwright.mcp.json`, working directory this folder. Restart Claude Desktop.
+
 **Anyone else:** from this folder run:
 
 ```bash
