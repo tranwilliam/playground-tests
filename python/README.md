@@ -65,9 +65,9 @@ tests/
   playground/          Hub only: https://www.theqaiguy.com/playground/
   labs/                Seven labs: /playground/sign-in, payment, dialogs, checkout, locators, injection, access
   qaflix/              QAflix only: https://www.theqaiguy.com/qaflix/
-                       helpers.py = shared steps (sign up, pay) used by more than one spec
+                       pages/ = one class per screen; journeys.py = shared membership steps
 conftest.py            Practice user, card, unique QAflix email, and the step() logger
 pytest.ini             Live URL for theQAIguy
 ```
 
-The specs are beginner-style: `page.goto`, `get_by_label`, `get_by_role`, `expect`. There are no page-object classes. The locators lab clicks **Save report** by its visible name, so it still works after the button id changes.
+Lab specs are beginner-style: `page.goto`, `get_by_label`, `get_by_role`, `expect`. QAflix uses page objects under `tests/qaflix/pages/`. The locators lab clicks **Save report** by its visible name, so it still works after the button id changes.
