@@ -259,7 +259,7 @@ If the agent says WebMCP is off, the labs still work. It will click the real fie
 
 ### 6. MCP does not replace `npm test`
 
-Asking an agent to "run the tests" means it should use the terminal (`npm test`). Playwright MCP is the browser. Both can live in the same chat if you want.
+Asking an agent to "run the tests" means it should use the terminal from the TypeScript folder: `cd typescript && npm test`. Playwright MCP is the browser and starts from the repo root. Both can live in the same chat if you want.
 
 ---
 
