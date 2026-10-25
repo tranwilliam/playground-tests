@@ -27,6 +27,10 @@ class AccountPage:
         self.page.get_by_role("region", name="Security").get_by_role(
             "button", name="Enable MFA"
         ).click()
+        dialog = self.page.get_by_role("dialog")
+        expect(dialog.get_by_role("heading", name="Enable MFA?")).to_be_visible()
+        expect(dialog.get_by_text("This signs you out.")).to_be_visible()
+        dialog.get_by_role("button", name="Enable MFA").click()
 
     def disable_mfa(self, code: str) -> None:
         security = self.page.get_by_role("region", name="Security")
