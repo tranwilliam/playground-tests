@@ -5,6 +5,7 @@ from tests.qaflix.pages.account.account import AccountPage
 from tests.qaflix.pages.auth.forgot import ForgotPage
 from tests.qaflix.pages.auth.home import HomePage
 from tests.qaflix.pages.auth.login import LoginPage
+from tests.qaflix.pages.auth.mfa import MfaPage
 from tests.qaflix.pages.auth.signup import SignupPage
 from tests.qaflix.pages.browse.browse import BrowsePage
 from tests.qaflix.pages.browse.player import PlayerPage
@@ -26,6 +27,11 @@ def signup(page: Page) -> SignupPage:
 @pytest.fixture
 def login(page: Page) -> LoginPage:
     return LoginPage(page)
+
+
+@pytest.fixture
+def mfa(page: Page) -> MfaPage:
+    return MfaPage(page)
 
 
 @pytest.fixture
